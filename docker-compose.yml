@@ -1,0 +1,10 @@
+web:
+  build: .
+  command: rails server -p 3000 -b '0.0.0.0'
+  tty: true
+  volumes:
+    - ./web:/web
+  ports:
+    - "80:3000"
+mqtt-broker:
+  image: ansi/mosquitto
