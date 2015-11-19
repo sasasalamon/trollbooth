@@ -11,14 +11,15 @@ RUN apt-get update && apt-get install -y \
 # Configure the main working directory. This is the base
 # directory used in any further RUN, COPY, and ENTRYPOINT
 # commands.
-RUN mkdir -p /web
+RUN mkdir /web
 WORKDIR /web
 
 # Copy the main application.
-COPY ./web /web
+ADD ./web/Gemfile /web/Gemfile
+ADD ./web/Gemfile.lock /web/Gemfile.lock
 
 # Install needed gems
-RUN gem install bundler && bundle install --jobs 20 --retry 5
+RUN bundle install --jobs 20 --retry 5
 
 # Configure an entry point, so we don't need to specify
 # "bundle exec" for each of our commands.
