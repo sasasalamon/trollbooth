@@ -1,0 +1,22 @@
+## Uncomment and set this to only include directories you want to watch
+directories(%w(src)).select do |directory|
+  if Dir.exist?(directory)
+    directory
+  else
+    UI.warning("Directory #{directory} does not exist")
+  end
+end
+
+guard 'shell' do
+  watch(/^.+\.(h|cpp|ino)$/) do
+    eager 'make'
+  end
+end
+
+class ::Guard::Upload < Plugin
+  def run_all
+    `make ota`
+  end
+end
+
+guard 'upload'
