@@ -10,9 +10,9 @@ static const char* password = "3KRgC7Gr9q84CheW";
 
 static const int RAMP_BUTTON_PIN = 14;
 static int triggerButton = 0;
-static int lastTriggerMillis = 0;
+static unsigned long lastTriggerMillis = 0;
 WiFiClient wifiClient;
-IPAddress mqttIP(192, 168, 1, 204);
+IPAddress mqttIP(192, 168, 1, 44);
 PubSubClient mqttClient(wifiClient, mqttIP);
 
 void (*loop_pointer)(void);
@@ -41,6 +41,8 @@ void setup_ota() {
 void setup()
 {
   Serial.begin(9600);
+  WiFi.setAutoReconnect(true);
+  WiFi.persistent(true);
   WiFi.mode(WIFI_STA);
   WiFi.hostname(hostname);
   WiFi.begin(ssid, password);
@@ -49,6 +51,7 @@ void setup()
     Serial.println("Connection Failed! Booting in AP mode...");
     WiFi.softAP("ESP Uploader");
     Serial.print("AP IP address: " + WiFi.softAPIP());
+    setup_ota();
     loop_pointer = safe_loop;
     return;
   }
