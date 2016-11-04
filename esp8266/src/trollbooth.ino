@@ -12,7 +12,7 @@ static const int RAMP_BUTTON_PIN = 14;
 static int triggerButton = 0;
 static unsigned long lastTriggerMillis = 0;
 WiFiClient wifiClient;
-IPAddress mqttIP(192, 168, 1, 44);
+IPAddress mqttIP(192, 168, 1, 11);
 PubSubClient mqttClient(wifiClient, mqttIP);
 
 void (*loop_pointer)(void);
@@ -89,7 +89,7 @@ void normal_loop() {
     lastTriggerMillis = millis();
     digitalWrite(RAMP_BUTTON_PIN, HIGH);
   }
-  if (lastTriggerMillis && millis() - lastTriggerMillis > 200) {
+  if (lastTriggerMillis && millis() - lastTriggerMillis > 2000) {
     lastTriggerMillis = 0;
     digitalWrite(RAMP_BUTTON_PIN, LOW);
   }
