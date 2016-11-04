@@ -50,7 +50,8 @@ void setup()
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
     Serial.println("Connection Failed! Booting in AP mode...");
     WiFi.softAP("ESP Uploader");
-    Serial.print("AP IP address: " + WiFi.softAPIP());
+    Serial.print("AP IP address: ");
+    Serial.println(WiFi.softAPIP());
     setup_ota();
     loop_pointer = safe_loop;
     return;
