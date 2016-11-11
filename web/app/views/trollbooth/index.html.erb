@@ -3,3 +3,11 @@
 <h4>
   <%= button_to 'Otvori kapiju', {controller: 'trollbooth', action: 'open'}, method: :post, remote: true %>
 </h4>
+
+<script type="text/javascript">
+  $("form").on("ajax:success", function(e, data, status, xhr) {
+    alert('Success!');
+  }).on("ajax:error", function(e, data, status, xhr) {
+    alert('A sta ce ti to!');
+  });
+</script>

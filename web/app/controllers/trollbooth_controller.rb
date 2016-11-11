@@ -1,10 +1,22 @@
 class TrollboothController < ApplicationController
+  ACK_TOPIC = 'trollbooth/acks'.freeze
+  REQUEST_TOPIC = 'trollbooth/requests'.freeze
+
   def index
   end
 
   def open
     mqtt do |client|
-      client.publish 'trollbooth', '1'
+      message_id = SecureRandom.uuid
+      client.subscribe ACK_TOPIC
+      client.publish REQUEST_TOPIC, message_id
+      wait_for_acknowledgement client
+      _topic, message = client.get unless client.queue_empty?
+      if message == message_id
+        head :no_content
+      else
+        head :service_unavailable
+      end
     end
   end
 
@@ -17,5 +29,11 @@ class TrollboothController < ApplicationController
     client.connect
     yield client
     client.disconnect
+  end
+
+  def wait_for_acknowledgement(client)
+    Timeout.timeout(5) { sleep 0.1 while client.queue_empty? }
+  rescue Timeout::Error
+    false
   end
 end
