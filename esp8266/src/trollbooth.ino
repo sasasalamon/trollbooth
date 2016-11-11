@@ -4,7 +4,8 @@
 #include <PubSubClient.h>
 
 static const char* hostname = "esp-trollbooth";
-static const char* mqttTopic = "trollbooth";
+static const char* mqttRequestsTopic = "trollbooth/requests";
+static const char* mqttAcksTopic = "trollbooth/acks";
 static const char* ssid = "xx77aBs";
 static const char* password = "3KRgC7Gr9q84CheW";
 
@@ -63,7 +64,8 @@ void setup()
 }
 
 void mqttCallback(const MQTT::Publish& pub) {
-  if (pub.topic() == mqttTopic && pub.payload_string() == "1") {
+  if (pub.topic() == mqttRequestsTopic) {
+    mqttClient.publish(mqttAcksTopic, pub.payload_string());
     triggerButton = 1;
   }
 }
@@ -78,7 +80,7 @@ void normal_loop() {
   if (!mqttClient.connected()) {
     if (mqttClient.connect(hostname)) {
       mqttClient.set_callback(mqttCallback);
-      mqttClient.subscribe(mqttTopic);
+      mqttClient.subscribe(mqttRequestsTopic);
     }
   } else {
     mqttClient.loop();
