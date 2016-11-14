@@ -2,12 +2,13 @@
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
 #include <PubSubClient.h>
+#include "defines.h"
 
 static const char* hostname = "esp-trollbooth";
 static const char* mqttRequestsTopic = "trollbooth/requests";
 static const char* mqttAcksTopic = "trollbooth/acks";
-static const char* ssid = "xx77aBs";
-static const char* password = "3KRgC7Gr9q84CheW";
+static const char* ssid = WLAN_SSID;
+static const char* password = WLAN_PASSWORD;
 
 static const int RAMP_BUTTON_PIN = 14;
 static int triggerButton = 0;
