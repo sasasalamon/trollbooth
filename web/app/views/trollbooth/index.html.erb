@@ -1,13 +1,38 @@
-<h1>Trollbooth</h1>
-
-<h4>
-  <%= button_to 'Otvori kapiju', {controller: 'trollbooth', action: 'open'}, method: :post, remote: true %>
-</h4>
+<ul id="container">
+  <li class="slide-in">
+    <div class="inner">
+      <h1>Trollbooth</h1>
+      <ul class="actions">
+        <li>
+          <%= button_to 'Otvori kapiju', {controller: 'trollbooth', action: 'open'}, {method: :post, remote: true, class: 'button scrolly'} %>
+        </li>
+      </ul>
+    </div>
+  </li>
+  <li>
+    <h2 id='message'>test</h2>
+    <p id='details' style='font-size: 0.7em; text-align: left; line-height: normal;'></p>
+  </li>
+</ul>
 
 <script type="text/javascript">
+  function nextSlide() {
+    var el = document.getElementsByClassName('slide-in')[0];
+    el.classList.remove('slide-in');
+    el.classList.add('slide-away');
+    el.nextElementSibling.classList.add('slide-in');
+  }
+
   $("form").on("ajax:success", function(e, data, status, xhr) {
-    alert('Success!');
+    $('#message').text('Ajde radit!');
+    nextSlide();
   }).on("ajax:error", function(e, data, status, xhr) {
-    alert('A sta ce ti to!');
+    $('#message').text('A sta ce ti to!');
+    $('#details').html(
+      '<b>Status:</b> ' + status + '</br>' +
+      '<b>HTTP Return code:</b> ' + data.status + '</br>' +
+      '<b>Response:</b></br><pre>' + data.responseText.substr(0, 1000) + '</pre>'
+    );
+    nextSlide();
   });
 </script>
