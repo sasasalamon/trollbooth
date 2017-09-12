@@ -6,21 +6,30 @@ class TrollboothController < ApplicationController
   end
 
   def open
+    open_gate do |success|
+      head(success ? :no_content : :service_unavailable)
+    end
+  end
+
+  def letmein
+    open_gate do |success|
+      @success = success
+    end
+  end
+
+  private
+
+  def open_gate
     mqtt do |client|
       message_id = SecureRandom.uuid
       client.subscribe ACK_TOPIC
       client.publish REQUEST_TOPIC, message_id
       wait_for_acknowledgement client
       _topic, message = client.get unless client.queue_empty?
-      if message == message_id
-        head :no_content
-      else
-        head :service_unavailable
-      end
+
+      yield(message == message_id)
     end
   end
-
-  private
 
   def mqtt
     client = MQTT::Client.new

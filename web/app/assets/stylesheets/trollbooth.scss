@@ -42,6 +42,16 @@ body {
   -webkit-text-size-adjust: none;
 }
 
+.opened{
+  background-image: -webkit-linear-gradient(45deg, #1A6200 5%, #248900 30%, #3CDF00);
+  background-image: linear-gradient(45deg, #1A6200 5%, #248900 30%, #3CDF00);
+}
+
+.not_opened{
+  background-image: -webkit-linear-gradient(45deg, #621A00 5%, #892400 30%, #DF3C00);
+  background-image: linear-gradient(45deg, #621A00 5%, #892400 30%, #DF3C00);
+}
+
 body.is-loading *, body.is-loading *:before, body.is-loading *:after {
   -webkit-animation: none !important;
   animation: none !important;
@@ -490,7 +500,7 @@ h2 {
 }
 
 h1 {
-  font-size: 2.25em;
+  font-size: 3.25em;
   line-height: 1.35em;
 }
 
