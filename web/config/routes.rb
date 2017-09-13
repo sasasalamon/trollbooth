@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   get 'trollbooth/index'
   post 'trollbooth/open'
+
+  get :letmein, to: 'trollbooth#letmein'
 end
