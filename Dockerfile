@@ -1,4 +1,4 @@
-FROM ruby:2.2
+FROM ruby:2.2.9
 MAINTAINER kiki@codecons.com
 
 # Install apt based dependencies required to run Rails as
